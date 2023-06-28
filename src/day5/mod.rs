@@ -143,7 +143,6 @@ fn day5_2(inputs: &String) -> usize {
     //And 989 in the Y direction
     //Size 1024 x 1024 is arbitrary just make the grid a square instead of an oblong rectangle
     let mut grid: Vec<[u16; GRID_SIZE]> = vec![[0; GRID_SIZE]; GRID_SIZE];
-    let x : [u16; GRID_SIZE * GRID_SIZE] = [0; GRID_SIZE * GRID_SIZE];
     //let mut grid: [[u16;GRID_SIZE];GRID_SIZE] = [[0; GRID_SIZE]; GRID_SIZE]; //Blows the stack in Debug???
     //let mut grid: Box<[[u16; GRID_SIZE]]> = Box::new([[GRID_SIZE as u16; GRID_SIZE]]); //Creates array size of 1???
 
