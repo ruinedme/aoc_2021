@@ -33,6 +33,7 @@ pub fn day7_2(inputs: &String) -> usize {
     return fuel;
 }
 
+//n is the number of steps taken
 fn sum_fuel(n: usize) -> usize {
     if n == 0 {
         return 0;
