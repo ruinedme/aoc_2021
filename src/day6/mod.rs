@@ -59,7 +59,7 @@ fn day6_2(inputs: &String) -> usize {
         let zeros = fish_stages[0];
         //"decrement" each other value by 1
         while index < 8 {
-            fish_stages[index] = fish_stages[index+1];
+            fish_stages[index] = fish_stages[index + 1];
             index += 1;
         }
         //turn 0's to 6's
