@@ -17,17 +17,24 @@ pub fn day7_1(inputs: &String) -> usize {
 pub fn day7_2(inputs: &String) -> usize {
     let mut positions: Vec<usize> = inputs.split(',').map(|x| x.parse().unwrap()).collect();
     positions.sort();
-    let mut mode = positions[positions.len() / 2]; // == 367
-    let mid = positions.len() / 2; // 500
-    println!("mid: {mid}");
 
-    let mut fuel: usize = positions.iter().map(|x| sum_fuel(x.abs_diff(mode))).sum();
-    while mode <= mid {
-        let new_fuel: usize = positions.iter().map(|x| sum_fuel(x.abs_diff(mode))).sum();
+    //Answer is 489, not sure if there is a better way to determine the preciese answer.
+    let  mode = positions[positions.len() / 2]; // 367
+    let mut mid = positions.len() / 2; // 500
+    
+    let mut fuel: usize = positions.iter().map(|x| sum_fuel(x.abs_diff(mid))).sum();
+    //Go backwards from mid to mode just to save on iterations.
+    //Sample input answer was exactly mid, puzzle input was mid - 11
+    while mid >= mode {
+        mid -= 1;
+        let new_fuel: usize = positions.iter().map(|x| sum_fuel(x.abs_diff(mid))).sum();
+        //Fuel costs will go down on each iteration until the min is found, then cost starts increasing.
+        //break as soon as new_fuel > fuel;
         if new_fuel < fuel {
             fuel = new_fuel;
+            continue;
         }
-        mode += 1;
+        break;
     }
 
     return fuel;
