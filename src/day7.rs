@@ -19,9 +19,9 @@ pub fn day7_2(inputs: &String) -> usize {
     positions.sort();
 
     //Answer is 489, not sure if there is a better way to determine the preciese answer.
-    let  mode = positions[positions.len() / 2]; // 367
+    let mode = positions[positions.len() / 2]; // 367
     let mut mid = positions.len() / 2; // 500
-    
+
     let mut fuel: usize = positions.iter().map(|x| sum_fuel(x.abs_diff(mid))).sum();
     //Go backwards from mid to mode just to save on iterations.
     //Sample input answer was exactly mid, puzzle input was mid - 11
