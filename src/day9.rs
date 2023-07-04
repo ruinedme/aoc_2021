@@ -205,11 +205,13 @@ fn map_basin(
     let n = check_neighbor(point, row_max, col_max, &map);
     match n {
         Some(mut x) => {
+            //filter out new unique neighbors
             x = x
                 .iter()
                 .filter(|t| neighbors.insert(**t))
                 .map(|t| *t)
                 .collect();
+            //continue to recurse over new neighbors until none are left
             for i in x {
                 map_basin(i, &map, neighbors);
             }
