@@ -8,7 +8,7 @@ pub fn run_day4(inputs: &String) {
 
 const BOARD_SIZE: usize = 5;
 fn build_boards(inputs: &[&str]) -> Vec<[[u8; BOARD_SIZE]; BOARD_SIZE]> {
-    let mut boards: Vec<[[u8; 5]; 5]> = Vec::new();
+    let mut boards: Vec<[[u8; BOARD_SIZE]; BOARD_SIZE]> = Vec::new();
 
     let mut index = 0;
     let mut board_index = 0;
