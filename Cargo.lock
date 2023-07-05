@@ -5,3 +5,10 @@ version = 3
 [[package]]
 name = "aoc_2021"
 version = "0.1.0"
+dependencies = [
+ "grid",
+]
+
+[[package]]
+name = "grid"
+version = "0.1.0"

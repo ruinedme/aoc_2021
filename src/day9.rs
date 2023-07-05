@@ -1,3 +1,4 @@
+use grid::{get_cardinal_neighbors, to_map};
 use std::collections::HashSet;
 
 pub fn run_day9(inputs: &String) {
@@ -9,7 +10,6 @@ pub fn run_day9(inputs: &String) {
 }
 
 fn day9_1(inputs: &String) -> usize {
-    //parse lines into map
     let input_map: Vec<Vec<u8>> = to_map(inputs);
 
     let mut total = 0;
@@ -48,21 +48,6 @@ fn day9_2(inputs: &String) -> usize {
     basin_sizes.sort();
     let len = basin_sizes.len();
     return basin_sizes[len - 1] * basin_sizes[len - 2] * basin_sizes[len - 3];
-}
-
-fn to_map(inputs: &String) -> Vec<Vec<u8>> {
-    let lines = inputs.lines();
-    //parse lines into map
-    let mut input_map: Vec<Vec<u8>> = Vec::new();
-    for (row, line) in lines.enumerate() {
-        input_map.push(Vec::new());
-        for c in line.chars() {
-            let x: u8 = String::from(c).as_str().parse().unwrap();
-            input_map[row].push(x)
-        }
-    }
-
-    return input_map;
 }
 
 fn is_lowpoint(point: (usize, usize), map: &Vec<Vec<u8>>) -> bool {
@@ -153,70 +138,24 @@ fn is_lowpoint(point: (usize, usize), map: &Vec<Vec<u8>>) -> bool {
     return false;
 }
 
-fn check_neighbor(
-    point: (usize, usize),
-    row_max: usize,
-    col_max: usize,
-    map: &Vec<Vec<u8>>,
-) -> Option<Vec<(usize, usize)>> {
-    let mut n: Vec<(usize, usize)> = Vec::with_capacity(4);
-    //check up
-    if point.0 > 0 {
-        let t_value = map[point.0 - 1][point.1];
-        if t_value < 9 && t_value > 0 {
-            n.push((point.0 - 1, point.1));
-        }
-    }
-    //check right
-    if point.1 < col_max {
-        let t_value = map[point.0][point.1 + 1];
-        if t_value < 9 && t_value > 0 {
-            n.push((point.0, point.1 + 1));
-        }
-    }
-    //check down
-    if point.0 < row_max {
-        let t_value = map[point.0 + 1][point.1];
-        if t_value < 9 && t_value > 0 {
-            n.push((point.0 + 1, point.1));
-        }
-    }
-    //check left
-    if point.1 > 0 {
-        let t_value = map[point.0][point.1 - 1];
-        if t_value < 9 && t_value > 0 {
-            n.push((point.0, point.1 - 1));
-        }
-    }
-    if n.len() > 0 {
-        return Some(n);
-    }
-    return None;
-}
-
 fn map_basin(
     point: (usize, usize),
     map: &Vec<Vec<u8>>,
     neighbors: &mut HashSet<(usize, usize)>,
 ) -> usize {
-    let row_max = map.len() - 1;
-    let col_max = map[0].len() - 1;
+    //get neighbors
+    let mut n = get_cardinal_neighbors(point, &map);
 
-    let n = check_neighbor(point, row_max, col_max, &map);
-    match n {
-        Some(mut x) => {
-            //filter out new unique neighbors
-            x = x
-                .iter()
-                .filter(|t| neighbors.insert(**t))
-                .map(|t| *t)
-                .collect();
-            //continue to recurse over new neighbors until none are left
-            for i in x {
-                map_basin(i, &map, neighbors);
-            }
-        }
-        None => (),
+    n = n
+        .iter()
+        .filter(|x| &map[x.0][x.1] < &9 && &map[x.0][x.1] > &0) //filter out invalid neighbors
+        .map(|x| *x)
+        .filter(|t| neighbors.insert(*t)) //filter out new unique neighbors
+        .map(|t| t)
+        .collect();
+    //continue to recurse over new neighbors until none are left
+    for i in n {
+        map_basin(i, &map, neighbors);
     }
 
     return neighbors.len();
