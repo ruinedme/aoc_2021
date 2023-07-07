@@ -28,7 +28,8 @@ fn main() {
         8 => day8::run_day8(&inputs),
         9 => day9::run_day9(&inputs),
         10 => day10::run_day10(&inputs),
-        11..=25 => println!("Not Implemented"),
+        11 => day11::run_day11(&inputs),
+        12..=25 => println!("Not Implemented"),
         _ => panic!("Invalid Day"),
     }
 }
