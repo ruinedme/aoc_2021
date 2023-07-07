@@ -65,8 +65,59 @@ fn day11_1(inputs: &String) -> usize {
     return total_flashes;
 }
 
-fn day11_2(_inputs: &String) -> usize {
-    return 0;
+fn day11_2(inputs: &String) -> usize {
+    let mut input_map: Vec<Vec<u8>> = to_map(&inputs);
+    let total_squares = input_map.len() * input_map[0].len();
+    let mut step = 0;
+
+    loop {
+        let mut should_flash: HashSet<(usize,usize)> = HashSet::new();
+        
+        //increase each square by 1
+        input_map = input_map
+            .iter()
+            .map(|y| y
+                .iter()
+                .map(|x| x + 1)
+                .collect())
+            .collect();
+
+        // Get squares that should flash for this step;
+        let mut row = 0;
+        let mut col = 0;
+        let max_row = input_map.len();
+        let max_col = input_map[0].len();
+        //Can this be done with an iterator?
+        while row < max_row {
+            while col < max_col {
+                if input_map[row][col] > 9 {
+                    if should_flash.insert((row,col)){
+                        flash_square((row,col), &mut input_map, &mut should_flash);
+                    }
+                }
+                col += 1;
+            }
+            row += 1;
+            col = 0;
+        }
+
+        if should_flash.len() == total_squares {
+            return step + 1;
+        }
+        //reset all flashed squares to 0
+        input_map = input_map.iter()
+            .map(|y| y.iter()
+                .map(|x|{
+                    if *x > 9 {
+                        return 0;
+                    }else {
+                        return *x;
+                    }
+                })
+                .collect())
+            .collect();  
+        step += 1;
+    }
 }
 
 fn flash_square<'a>(point: (usize,usize), map: &mut Vec<Vec<u8>>, checked_points: &'a mut HashSet<(usize,usize)>) {
