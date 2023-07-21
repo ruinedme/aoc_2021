@@ -71,7 +71,6 @@ impl ParsedInput {
         //increase max x/y by 1 to account for array indexing
         max_x += 1;
         max_y += 1;
-        println!("grid size {},{}", max_x, max_y);
         //create grid
         let mut grid: Vec<Vec<u8>> = Vec::with_capacity(max_y);
         let mut i = 0;
