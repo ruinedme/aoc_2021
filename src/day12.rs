@@ -46,9 +46,9 @@ fn parse_input(inputs: &String) -> HashMap<&str, Vec<&str>> {
             match caves.get_mut(left) {
                 Some(x) => {
                     x.push(right);
-                },
+                }
                 None => {
-                    caves.insert(left, vec![{right}]);
+                    caves.insert(left, vec![{ right }]);
                 }
             }
         }
@@ -56,9 +56,9 @@ fn parse_input(inputs: &String) -> HashMap<&str, Vec<&str>> {
             match caves.get_mut(right) {
                 Some(x) => {
                     x.push(left);
-                },
+                }
                 None => {
-                    caves.insert(right, vec![{left}]);
+                    caves.insert(right, vec![{ left }]);
                 }
             }
         }
@@ -69,15 +69,15 @@ fn parse_input(inputs: &String) -> HashMap<&str, Vec<&str>> {
 //This feels awkward. Is there a better way to do this?
 fn is_cave_small(cave: &str) -> bool {
     let cave_chars: Vec<char> = cave.chars().collect();
-    return  cave_chars[0].is_ascii_lowercase();
+    return cave_chars[0].is_ascii_lowercase();
 }
 
 //returns true is given cave is small and visisted twice
-fn has_visited_twice<'a>(path: &Vec<&'a str>,match_cave: &'a str) -> bool {
+fn has_visited_twice<'a>(path: &Vec<&'a str>, match_cave: &'a str) -> bool {
     if is_cave_small(match_cave) {
-        return path.iter().filter(|&x|  *x == match_cave).count() == 2;
+        return path.iter().filter(|&x| *x == match_cave).count() == 2;
     }
-    return false;    
+    return false;
 }
 
 //Retrun true if 0 or 1 small caves have been visited
@@ -87,11 +87,15 @@ fn filter_good_path(path: &Vec<&str>) -> bool {
         if *cave == START || *cave == END {
             continue;
         }
-        if is_cave_small(cave){
+        if is_cave_small(cave) {
             *small_cave_count.entry(cave).or_default() += 1;
         }
     }
-    small_cave_count = small_cave_count.iter().filter(|(_,&v)| v == 2).map(|(&k,&v)|(k,v)).collect();
+    small_cave_count = small_cave_count
+        .iter()
+        .filter(|(_, &v)| v == 2)
+        .map(|(&k, &v)| (k, v))
+        .collect();
 
     return small_cave_count.len() < 2;
 }
@@ -108,11 +112,11 @@ fn build_paths<'a>(caves: &HashMap<&'a str, Vec<&'a str>>, part: u8) -> Vec<Vec<
         let mut completed_paths = match part {
             1 => add_forks(&start_path, caves),
             2 => add_forks2(&start_path, caves),
-            _ => unreachable!()
+            _ => unreachable!(),
         };
         paths.append(&mut completed_paths);
     }
-    
+
     return paths;
 }
 
@@ -123,7 +127,10 @@ fn build_paths<'a>(caves: &HashMap<&'a str, Vec<&'a str>>, part: u8) -> Vec<Vec<
 // create new path for each connection
 // add any path tha ends in "end" to complete paths
 // recurse any other cave to continue building forks
-fn add_forks<'a>(start_path: &Vec<&'a str>, caves: &HashMap<&'a str, Vec<&'a str>>) -> Vec<Vec<&'a str>> {
+fn add_forks<'a>(
+    start_path: &Vec<&'a str>,
+    caves: &HashMap<&'a str, Vec<&'a str>>,
+) -> Vec<Vec<&'a str>> {
     let current_cave = start_path.last().unwrap();
     let forks = caves.get(current_cave).unwrap();
 
@@ -152,14 +159,19 @@ fn add_forks<'a>(start_path: &Vec<&'a str>, caves: &HashMap<&'a str, Vec<&'a str
 }
 
 //Can visit 1 small cave twice, all other small caves once, big cave unlimited
-fn add_forks2<'a>(start_path: &Vec<&'a str>, caves: &HashMap<&'a str, Vec<&'a str>>) -> Vec<Vec<&'a str>> {
+fn add_forks2<'a>(
+    start_path: &Vec<&'a str>,
+    caves: &HashMap<&'a str, Vec<&'a str>>,
+) -> Vec<Vec<&'a str>> {
     let current_cave = start_path.last().unwrap();
     let forks = caves.get(current_cave).unwrap();
-    
+
     let mut completed_paths: Vec<Vec<&str>> = Vec::with_capacity(forks.len());
     for cave in forks {
         //visit any small cave at most twice OR has visited 2 or more small caves twice
-        if (is_cave_small(cave) && has_visited_twice(start_path, cave)) || !filter_good_path(start_path) {
+        if (is_cave_small(cave) && has_visited_twice(start_path, cave))
+            || !filter_good_path(start_path)
+        {
             continue;
         }
 
