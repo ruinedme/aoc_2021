@@ -15,17 +15,14 @@ fn day11_1(inputs: &String) -> usize {
     let mut input_map: Vec<Vec<u8>> = to_map(&inputs);
     let mut step = 0;
     let mut total_flashes = 0;
-    
+
     while step < STEPS {
-        let mut should_flash: HashSet<(usize,usize)> = HashSet::new();
-        
+        let mut should_flash: HashSet<(usize, usize)> = HashSet::new();
+
         //increase each square by 1
         input_map = input_map
             .iter()
-            .map(|y| y
-                .iter()
-                .map(|x| x + 1)
-                .collect())
+            .map(|y| y.iter().map(|x| x + 1).collect())
             .collect();
 
         // Get squares that should flash for this step;
@@ -37,8 +34,8 @@ fn day11_1(inputs: &String) -> usize {
         while row < max_row {
             while col < max_col {
                 if input_map[row][col] > 9 {
-                    if should_flash.insert((row,col)){
-                        flash_square((row,col), &mut input_map, &mut should_flash);
+                    if should_flash.insert((row, col)) {
+                        flash_square((row, col), &mut input_map, &mut should_flash);
                     }
                 }
                 col += 1;
@@ -46,22 +43,25 @@ fn day11_1(inputs: &String) -> usize {
             row += 1;
             col = 0;
         }
-        total_flashes += should_flash.len(); 
+        total_flashes += should_flash.len();
         //reset all flashed squares to 0
-        input_map = input_map.iter()
-            .map(|y| y.iter()
-                .map(|x|{
-                    if *x > 9 {
-                        return 0;
-                    }else {
-                        return *x;
-                    }
-                })
-                .collect())
-            .collect();  
+        input_map = input_map
+            .iter()
+            .map(|y| {
+                y.iter()
+                    .map(|x| {
+                        if *x > 9 {
+                            return 0;
+                        } else {
+                            return *x;
+                        }
+                    })
+                    .collect()
+            })
+            .collect();
         step += 1;
     }
-    
+
     return total_flashes;
 }
 
@@ -71,15 +71,12 @@ fn day11_2(inputs: &String) -> usize {
     let mut step = 0;
 
     loop {
-        let mut should_flash: HashSet<(usize,usize)> = HashSet::new();
-        
+        let mut should_flash: HashSet<(usize, usize)> = HashSet::new();
+
         //increase each square by 1
         input_map = input_map
             .iter()
-            .map(|y| y
-                .iter()
-                .map(|x| x + 1)
-                .collect())
+            .map(|y| y.iter().map(|x| x + 1).collect())
             .collect();
 
         // Get squares that should flash for this step;
@@ -91,8 +88,8 @@ fn day11_2(inputs: &String) -> usize {
         while row < max_row {
             while col < max_col {
                 if input_map[row][col] > 9 {
-                    if should_flash.insert((row,col)){
-                        flash_square((row,col), &mut input_map, &mut should_flash);
+                    if should_flash.insert((row, col)) {
+                        flash_square((row, col), &mut input_map, &mut should_flash);
                     }
                 }
                 col += 1;
@@ -105,32 +102,40 @@ fn day11_2(inputs: &String) -> usize {
             return step + 1;
         }
         //reset all flashed squares to 0
-        input_map = input_map.iter()
-            .map(|y| y.iter()
-                .map(|x|{
-                    if *x > 9 {
-                        return 0;
-                    }else {
-                        return *x;
-                    }
-                })
-                .collect())
-            .collect();  
+        input_map = input_map
+            .iter()
+            .map(|y| {
+                y.iter()
+                    .map(|x| {
+                        if *x > 9 {
+                            return 0;
+                        } else {
+                            return *x;
+                        }
+                    })
+                    .collect()
+            })
+            .collect();
         step += 1;
     }
 }
 
-fn flash_square<'a>(point: (usize,usize), map: &mut Vec<Vec<u8>>, checked_points: &'a mut HashSet<(usize,usize)>) {
-    
+fn flash_square<'a>(
+    point: (usize, usize),
+    map: &mut Vec<Vec<u8>>,
+    checked_points: &'a mut HashSet<(usize, usize)>,
+) {
     //incement neighbors
-    let neighbors = get_all_neighbors((point.0,point.1), &map);
-    neighbors.iter()
-    .for_each(|point| map[point.0][point.1] += 1);
+    let neighbors = get_all_neighbors((point.0, point.1), &map);
+    neighbors
+        .iter()
+        .for_each(|point| map[point.0][point.1] += 1);
 
     //check for new squares to flash
     for n in neighbors {
         if map[n.0][n.1] > 9 {
-            if checked_points.insert(n) { //insert new point
+            if checked_points.insert(n) {
+                //insert new point
                 flash_square(n, map, checked_points); //recurse
             }
         }
