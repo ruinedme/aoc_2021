@@ -14,7 +14,7 @@ fn main() {
         println!("Day must be between 1 and 25 inclusive");
         return;
     }
-    //let inputs = fs::read(&args[1]).unwrap();
+
     let inputs = fs::read_to_string(&args[2]).unwrap();
 
     match day {
@@ -29,8 +29,9 @@ fn main() {
         9 => day9::run_day9(&inputs),
         10 => day10::run_day10(&inputs),
         11 => day11::run_day11(&inputs),
-        12 => day12::run_day12(&inputs),
-        13..=25 => println!("Not Implemented"),
+        12 => day12::run_day12(&inputs), //Kind of slow, can probably be optimized
+        13 => day13::run_day13(&inputs),
+        14..=25 => println!("Not Implemented"),
         _ => panic!("Invalid Day"),
     }
 }
