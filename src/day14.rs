@@ -2,10 +2,10 @@ use std::collections::HashMap;
 
 pub fn run_day14(inputs: &String) {
     let day14_1 = day14_1(&inputs);
-    println!("Day 1-1: {day14_1}");
+    println!("Day 14-1: {day14_1}");
 
     let day14_2 = day14_2(&inputs);
-    println!("Day 1-2: {day14_2}");
+    println!("Day 14-2: {day14_2}");
 }
 
 fn day14_1(inputs: &String) -> usize {
