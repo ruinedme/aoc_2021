@@ -1,3 +1,6 @@
+[source.crates-io]
+registry = "git://github.com/rust-lang/crates.io-index.git"
+
 [package]
 name = "aoc_2021"
 version = "0.1.0"

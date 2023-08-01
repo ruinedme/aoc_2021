@@ -32,7 +32,7 @@ fn main() {
         12 => day12::run_day12(&inputs), //Kind of slow, can probably be optimized
         13 => day13::run_day13(&inputs),
         14 => day14::run_day14(&inputs),
-        15 => day15::run_day15(&inputs), //TODO: Optimize. Very slow in debug, takes 1-2 seconds in release
+        15 => day15::run_day15(&inputs), //TODO: Optimize. pt1 ~3.5 in debug, ~150ms in release. pt2 N/A in debug, ~38s in release
         16..=25 => println!("Not Implemented"),
         _ => panic!("Invalid Day"),
     }
