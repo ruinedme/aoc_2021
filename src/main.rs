@@ -35,7 +35,8 @@ fn main() {
         15 => day15::run_day15(&inputs), //TODO: Optimize. pt1 ~3.5s in debug, ~150ms in release. pt2 N/A in debug, ~38s in release
         16 => day16::run_day16(&inputs), //TODO: Unspaghettify
         17 => day17::run_day17(&inputs),
-        18..=25 => println!("Not Implemented"),
+        18 => day18::run_day18(&inputs),
+        19..=25 => println!("Not Implemented"),
         _ => panic!("Invalid Day"),
     }
 }
