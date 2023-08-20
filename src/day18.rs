@@ -14,8 +14,29 @@ fn day18_1(inputs: &String) -> usize {
     return mag(x);
 }
 
-fn day18_2(_inputs: &String) -> usize {
-    return 0;
+fn day18_2(inputs: &String) -> usize {
+    let numbers: Vec<SnailFish> = parse(inputs);
+
+    let mut magnitudes: Vec<usize> = Vec::with_capacity(numbers.len() * 2);
+
+    for x in &numbers[0..] {
+        for y in &numbers[1..] {
+            let a = x.clone();
+            let b = y.clone();
+            //do x + y
+            let mut xy = Vec::from_iter([a, b]);
+            let c1 = add(&mut xy);
+            magnitudes.push(mag(c1));
+            //do y + x
+            let a = y.clone();
+            let b = x.clone();
+            let mut yx = Vec::from_iter([a, b]);
+            let c2 = add(&mut yx);
+            magnitudes.push(mag(c2));
+        }
+    }
+
+    return *magnitudes.iter().max_by(|&a, &b| a.cmp(&b)).unwrap();
 }
 
 //Tuple Vector of (d)epth and a (n)umber in the snailfish pair
