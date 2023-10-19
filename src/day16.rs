@@ -11,10 +11,10 @@ const CHUNK_WIDTH: usize = BIT_WIDTH * CHUNK_SIZE;
 
 pub fn run_day16(inputs: &String) {
     let day16_1 = day16_1(&inputs);
-    println!("Day 1-1: {day16_1}");
+    println!("Day 16-1: {day16_1}");
 
     let day16_2 = day16_2(&inputs);
-    println!("Day 1-2: {day16_2}");
+    println!("Day 16-2: {day16_2}");
 }
 
 fn day16_1(inputs: &String) -> usize {

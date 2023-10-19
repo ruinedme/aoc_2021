@@ -4,10 +4,10 @@ use grid::{get_all_neighbors, to_map};
 
 pub fn run_day11(inputs: &String) {
     let day11_1 = day11_1(&inputs);
-    println!("Day 1-1: {day11_1}");
+    println!("Day 11-1: {day11_1}");
 
     let day11_2 = day11_2(&inputs);
-    println!("Day 1-2: {day11_2}");
+    println!("Day 11-2: {day11_2}");
 }
 
 const STEPS: usize = 100;

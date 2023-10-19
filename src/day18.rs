@@ -1,9 +1,9 @@
 pub fn run_day18(inputs: &String) {
     let day18_1 = day18_1(&inputs);
-    println!("Day 1-1: {day18_1}");
+    println!("Day 18-1: {day18_1}");
 
     let day18_2 = day18_2(&inputs);
-    println!("Day 1-2: {day18_2}");
+    println!("Day 18-2: {day18_2}");
 }
 
 fn day18_1(inputs: &String) -> usize {

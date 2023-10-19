@@ -5,10 +5,10 @@ const END: &str = "end";
 
 pub fn run_day12(inputs: &String) {
     let day12_1 = day12_1(&inputs);
-    println!("Day 1-1: {day12_1}");
+    println!("Day 12-1: {day12_1}");
 
     let day12_2 = day12_2(&inputs);
-    println!("Day 1-2: {day12_2}");
+    println!("Day 12-2: {day12_2}");
 }
 
 fn day12_1(inputs: &String) -> usize {
