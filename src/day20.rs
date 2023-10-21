@@ -26,6 +26,7 @@ fn day20_2(inputs: &String) -> usize {
 
     grid = enhance_image(50, grid, enhancement_algo, image_width);
     // count up all the lit pixels
+    // given the logic in enhance_image() this fails on odd numbered iterations for my input because all pixels outside the image would be considered light
     let sum = grid.iter().flatten().fold(0, |acc: usize, &x| if x == HASH { acc + 1} else { acc });
 
     return sum;
@@ -48,13 +49,10 @@ fn print_grid(grid: &Vec<Vec<u8>>) {
 }
 /// Returns enhancement algorithm index
 fn enhance_pixel(pixel: (usize, usize), grid: &Vec<Vec<u8>>,filler: u8) -> usize {
-    // enhance first pixel
     let x = pixel.0;
     let y = pixel.1;
     let width = grid[0].len() - 1;
-    // let mut top: [u8; 3] = [DOT, DOT, DOT];
-    // let mut mid: [u8; 3] = [DOT, grid[y][x], DOT];
-    // let mut bot: [u8; 3] = [DOT, DOT, DOT];
+
     let mut top: [u8; 3] = [filler, filler, filler];
     let mut mid: [u8; 3] = [filler, grid[y][x], filler];
     let mut bot: [u8; 3] = [filler, filler, filler];
@@ -76,7 +74,7 @@ fn enhance_pixel(pixel: (usize, usize), grid: &Vec<Vec<u8>>,filler: u8) -> usize
     if x < width {
         mid[2] = grid[y][x + 1];
     }
-
+    // bot
     if y < width {
         bot[1] = grid[y + 1][x];
         if x > 0 {
@@ -86,7 +84,7 @@ fn enhance_pixel(pixel: (usize, usize), grid: &Vec<Vec<u8>>,filler: u8) -> usize
             bot[2] = grid[y + 1][x + 1];
         }
     }
-    // bot
+
     let pixel_matrix: [[u8; 3]; 3] = [top, mid, bot];
     
     // convert matrix to index
@@ -114,6 +112,7 @@ fn enhance_image(iterations: usize, mut grid: Vec<Vec<u8>>, algo: &[u8], image_s
         // samlple input algorithm index 0 is dark, and last index is light
         // my input first index is light, last index is dark
         // flip filler between light and dark depending on cycle
+        // unsure if this pattern holds true for all inputs
         let mut filler = 0; // 0 on odd
         if cycles % 2 == 0 {
             filler = algo.len() -1; //511 on even
@@ -132,10 +131,10 @@ fn enhance_image(iterations: usize, mut grid: Vec<Vec<u8>>, algo: &[u8], image_s
         cycles -= 1;
         // print_grid(&grid);
         
+        // resize the grid
         if image_width >= grid_width -1 {
             grid = resize_grid(grid);
             grid_width = grid.len();
-            println!("We need to resize! {}", cycles);
         }
     }
 
