@@ -37,7 +37,8 @@ fn main() {
         17 => day17::run_day17(&inputs),
         18 => day18::run_day18(&inputs), //TODO: pt2 is a little slow in debug, could be optimized
         19 => day19::run_day19(&inputs), //TODO: Learn the math for this
-        20..=25 => println!("Not Implemented"),
+        20 => day20::run_day20(&inputs),
+        21..=25 => println!("Not Implemented"),
         _ => panic!("Invalid Day"),
     }
 }
