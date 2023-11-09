@@ -7,43 +7,33 @@ pub fn run_day22(inputs: &String) {
 }
 
 fn day22_1(inputs: &String) -> usize {
-    let offset: isize = 50; //x,y,z can be +-50, offset input index by 50 for 0 based usized index
-    let grid_len = offset * 2;
-    // causes stack overflow when combined with other statements in Debug
-    // let mut reactor: [[[bool;100];100];100] = [[[false;100];100];100];
-    let mut reactor = [false; 1000000]; // 100^3
+    let steps: Vec<Cuboid> = inputs.lines().map(|x| Cuboid::new(x)).collect();
+    let region = Cuboid {
+        state: true,
+        x1: -50,
+        x2: 51,
+        y1: -50,
+        y2: 51,
+        z1: -50,
+        z2: 51,
+    };
 
-    let lines: Vec<&str> = inputs.lines().collect();
-
-    // ((z + offset) * (y.len() * x.len()) + ((y + offset) * x.len()) + (x + offset)
-    for line in lines {
-        let step = Cuboid::new(line);
-        if step.x1 < -(offset as isize) || step.x1 > offset as isize {
-            break;
-        }
-
-        for x in step.x1..step.x2 {
-            for y in step.y1..step.y2 {
-                for z in step.z1..step.z2 {
-                    let i = (((z + offset) * (grid_len * grid_len))
-                        + ((y + offset) * grid_len)
-                        + (x + offset)) as usize;
-                    reactor[i] = step.state;
-                }
-            }
-        }
-    }
-
-    return reactor
+    let mut instructions: Vec<Cuboid> = steps
         .iter()
-        .fold(0, |acc, &x| if x { acc + 1 } else { acc });
+        .filter(|&x| region.overlap(x).is_some())
+        .map(|&x| x)
+        .collect();
+
+    return process_instructions(&mut instructions);
 }
 
-fn day22_2(_inputs: &String) -> usize {
-   return  0;
+fn day22_2(inputs: &String) -> usize {
+    // parse all the steps
+    let mut steps: Vec<Cuboid> = inputs.lines().map(|x| Cuboid::new(x)).collect();
+
+    return process_instructions(&mut steps[..]);
 }
 
-#[allow(dead_code)]
 #[derive(Debug, PartialEq, Clone, Copy, Eq, PartialOrd, Ord)]
 struct Cuboid {
     state: bool,
@@ -149,4 +139,28 @@ impl Default for Cuboid {
             z2: 0,
         }
     }
+}
+
+// Answer derived from https://github.com/Dullstar/Advent_Of_Code/blob/main/python/year2021/day22.py
+fn process_instructions(instructions: &mut [Cuboid]) -> usize {
+    let mut placed: Vec<Cuboid> = Vec::new();
+    let mut volume = 0;
+
+    instructions.reverse();
+    for instruction in instructions {
+        if instruction.state {
+            let mut overlaps: Vec<Cuboid> = Vec::new();
+            for cuboid in &placed {
+                match instruction.overlap(&cuboid) {
+                    Some(x) => {
+                        overlaps.push(x);
+                    }
+                    None => (),
+                }
+            }
+            volume += instruction.volume() - process_instructions(&mut overlaps[..]);
+        }
+        placed.push(*instruction);
+    }
+    return volume;
 }
