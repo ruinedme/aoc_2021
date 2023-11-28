@@ -1,13 +1,17 @@
-use std::collections::HashSet;
-
 use grid::{get_all_neighbors, to_map};
+use std::collections::HashSet;
+use timer::profile;
 
 pub fn run_day11(inputs: &String) {
+    profile! {
     let day11_1 = day11_1(&inputs);
     println!("Day 11-1: {day11_1}");
+    }
 
+    profile! {
     let day11_2 = day11_2(&inputs);
     println!("Day 11-2: {day11_2}");
+    }
 }
 
 const STEPS: usize = 100;

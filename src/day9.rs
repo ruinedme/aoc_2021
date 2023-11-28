@@ -1,12 +1,17 @@
 use grid::{get_cardinal_neighbors, to_map};
 use std::collections::HashSet;
+use timer::profile;
 
 pub fn run_day9(inputs: &String) {
+    profile! {
     let day9_1 = day9_1(&inputs);
     println!("Day 9-1: {day9_1}");
+    }
 
+    profile! {
     let day9_2 = day9_2(&inputs);
     println!("Day 9-2: {day9_2}");
+    }
 }
 
 fn day9_1(inputs: &String) -> usize {

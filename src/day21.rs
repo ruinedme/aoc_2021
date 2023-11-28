@@ -1,11 +1,15 @@
-use std::usize;
+use timer::profile;
 
 pub fn run_day21(inputs: &String) {
+    profile! {
     let day21_1 = day21_1(&inputs);
     println!("Day 21-1: {day21_1}");
+    }
 
+    profile! {
     let day21_2 = day21_2(&inputs);
     println!("Day 21-2: {day21_2}");
+    }
 }
 
 fn day21_1(inputs: &String) -> usize {

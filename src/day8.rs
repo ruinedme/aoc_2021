@@ -1,9 +1,15 @@
+use timer::profile;
+
 pub fn run_day8(inputs: &String) {
+    profile! {
     let day8_1 = day8_1(&inputs);
     println!("Day 8-1: {day8_1}");
+    }
 
+    profile! {
     let day8_2 = day8_2(&inputs);
     println!("Day 8-2: {day8_2}");
+    }
 }
 
 //Count the number of 1,4,7,8 that appear in the output of 7 segment display

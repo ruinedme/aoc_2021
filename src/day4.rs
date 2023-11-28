@@ -1,9 +1,15 @@
+use timer::profile;
+
 pub fn run_day4(inputs: &String) {
+    profile! {
     let day4_1 = day4_1(&inputs);
     println!("Day 4-1: {day4_1}");
+    }
 
+    profile! {
     let day4_2 = day4_2(&inputs);
     println!("Day 4-2: {day4_2}");
+    }
 }
 
 const BOARD_SIZE: usize = 5;

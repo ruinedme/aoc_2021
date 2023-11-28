@@ -1,9 +1,15 @@
+use timer::profile;
+
 pub fn run_day2(inputs: &String) {
+    profile! {
     let day2_1 = day2_1(&inputs);
     println!("Day 2-1: {day2_1}");
+    }
 
+    profile! {
     let day2_2 = day2_2(&inputs);
     println!("Day 2-2: {day2_2}");
+    }
 }
 
 enum SubDirection {

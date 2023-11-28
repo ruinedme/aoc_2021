@@ -1,3 +1,5 @@
+use timer::profile;
+
 const BITS_TABLE: [char; 16] = [
     '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
 ];
@@ -10,11 +12,15 @@ const CHUNK_SIZE: usize = 0x10;
 const CHUNK_WIDTH: usize = BIT_WIDTH * CHUNK_SIZE;
 
 pub fn run_day16(inputs: &String) {
+    profile! {
     let day16_1 = day16_1(&inputs);
     println!("Day 16-1: {day16_1}");
+    }
 
+    profile! {
     let day16_2 = day16_2(&inputs);
     println!("Day 16-2: {day16_2}");
+    }
 }
 
 fn day16_1(inputs: &String) -> usize {

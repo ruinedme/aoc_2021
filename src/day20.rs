@@ -1,9 +1,15 @@
+use timer::profile;
+
 pub fn run_day20(inputs: &String) {
+    profile! {
     let day20_1 = day20_1(&inputs);
     println!("Day 20-1: {day20_1}");
+    }
 
+    profile! {
     let day20_2 = day20_2(&inputs);
     println!("Day 20-2: {day20_2}");
+    }
 }
 
 const HASH: u8 = b'#';

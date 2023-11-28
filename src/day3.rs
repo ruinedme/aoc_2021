@@ -1,9 +1,15 @@
+use timer::profile;
+
 pub fn run_day3(inputs: &String) {
+    profile! {
     let day3_1 = day3_1(&inputs);
     println!("Day 3-1: {day3_1}");
+    }
 
+    profile! {
     let day3_2 = day3_2(&inputs);
     println!("Day 3-1: {day3_2}");
+    }
 }
 
 fn day3_1(inputs: &String) -> usize {

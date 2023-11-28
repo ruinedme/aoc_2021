@@ -1,12 +1,17 @@
 use grid::{get_cardinal_neighbors, to_map};
 use std::{collections::HashMap, usize::MAX};
+use timer::profile;
 
 pub fn run_day15(inputs: &String) {
+    profile! {
     let day15_1 = day15_1(&inputs);
     println!("Day 15-1: {day15_1}");
+    }
 
+    profile! {
     let day15_2 = day15_2(&inputs);
     println!("Day 15-2: {day15_2}");
+    }
 }
 
 fn day15_1(inputs: &String) -> usize {

@@ -1,14 +1,19 @@
 use std::collections::HashMap;
+use timer::profile;
 
 const START: &str = "start";
 const END: &str = "end";
 
 pub fn run_day12(inputs: &String) {
+    profile! {
     let day12_1 = day12_1(&inputs);
     println!("Day 12-1: {day12_1}");
+    }
 
+    profile! {
     let day12_2 = day12_2(&inputs);
     println!("Day 12-2: {day12_2}");
+    }
 }
 
 fn day12_1(inputs: &String) -> usize {

@@ -1,9 +1,15 @@
+use timer::profile;
+
 pub fn run_day5(inputs: &String) {
+    profile! {
     let day5_1 = day5_1(&inputs);
     println!("Day 5-1: {day5_1}");
+    }
 
+    profile! {
     let day5_2 = day5_2(&inputs);
     println!("Day 5-2: {day5_2}");
+    }
 }
 
 const GRID_SIZE: usize = 1024;
