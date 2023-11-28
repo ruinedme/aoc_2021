@@ -70,15 +70,19 @@ pub fn cpu_freq() -> u64 {
 #[macro_export]
 macro_rules! profile {
     ($($stmts:stmt);* ;) => {
-        let _start = timer::read_cpu_timer();
+        let frequency = timer::os_freq() as f64;
+        let _start = timer::read_os_timer();
         $($stmts)*
-        let _end = timer::read_cpu_timer();
-        let elapsed_time = (_end - _start) as f64;
+        let _end = timer::read_os_timer();
+        let ticks = (_end - _start) as f64;
+        let elapsed_time = (ticks * 1_000_000f64) / frequency; // convert to microseconds
 
-        if elapsed_time > 10_000_000_000.0 {
-            println!("elapsed: {:.4}s", (elapsed_time as f64 / timer::cpu_freq() as f64));    
+        if elapsed_time <= 1000.0 {
+            println!("Elapsed: {:.4}\u{03bc}s", elapsed_time);
+        } else if elapsed_time >= 1_000_000.0 {
+            println!("Elapsed: {:.4}s", elapsed_time / 1_000_000.0);
         } else {
-            println!("elapsed: {:.4}ms", (elapsed_time as f64 / 1_000_000.0));    
+            println!("Elapsed: {:.4}\u{03bc}s", elapsed_time / 1000.0);
         }
     };
 }
