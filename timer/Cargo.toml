@@ -1,13 +1,10 @@
-[source.crates-io]
-registry = "git://github.com/rust-lang/crates.io-index.git"
-
 [package]
-name = "aoc_2021"
+name = "timer"
 version = "0.1.0"
 edition = "2021"
+publish = false
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-grid = { path = "./grid" }
-timer = { path = "./timer" }
+winapi = { version = "0.3.9", features = ["profileapi"] }
