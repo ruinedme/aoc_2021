@@ -73,7 +73,13 @@ macro_rules! profile {
         let _start = timer::read_cpu_timer();
         $($stmts)*
         let _end = timer::read_cpu_timer();
-        let elapsed_time = (((_end - _start) * 1000000) / timer::os_freq()) as f64;
-        println!("Elapsed Time: {:.4}", elapsed_time);
+        let elapsed_time = ((_end - _start) * 1000000) as f64 / timer::os_freq() as f64;
+        if elapsed_time > 1000f64 {
+            println!("Elapsed Time: {:.4}ms", elapsed_time / 1000f64);
+        } else if elapsed_time < 1000000f64 {
+            println!("Elapsed Time: {:.4}s", elapsed_time / 1000000f64);
+        }else {
+            println!("Elapsed Time: {:.4}\u{03bc}s", elapsed_time);
+        }
     };
 }
